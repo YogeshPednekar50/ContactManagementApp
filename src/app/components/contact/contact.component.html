@@ -1,0 +1,69 @@
+
+<br/>
+
+<app-addcontact *ngIf="showAddForm" (HideAddForm) = "HideAddContactForm($event)"></app-addcontact>
+
+<app-edit-contact *ngIf="showEditForm" [getContact] = "editContact" (HideEditForm) = "HideEditContactForm($event)" ></app-edit-contact>
+
+<app-delete-contact *ngIf="showDeleteForm"  [getContact] = "deleteContact" (HideDeleteForm) = "HideDeleteContactForm($event)"></app-delete-contact>
+
+<a  class="btn ms-1 btn-success " (click)="showAddContactForm()">New</a>
+
+<hr/>
+
+<div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Email Id</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of contacts | paginate: {itemsPerPage: pagination.itemsPerPage , currentPage: pagination.pageNumber, totalItems: totalContacts}">
+          <td>{{contact.id}}</td>
+          <td>{{contact.firstName}}</td>
+          <td>{{contact.lastName}}</td>
+          <td>{{contact.email}}</td>
+
+          <td>
+            <button type="button"  class="btn ms-1 btn-primary " (click)="onEdit(contact)">Edit</button>
+          </td>
+          <td>
+            <button type="button" class="btn ms-1 btn-danger " (click)="onDelete(contact)">Delete</button>
+          </td>
+
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <div class="row"> 
+    <div class="col-sm-4">
+        <label> Show
+
+            <select [(ngModel)] = "pagination.itemsPerPage" (change)="updatePagination()">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+            </select> entries
+        </label>
+      </div>
+      <div class="col-sm-6">
+    <pagination-controls (pageChange) = "onFilterChange($event)" >
+
+
+    </pagination-controls>
+      </div>
+
+
+</div>
+
+
+  </div>
